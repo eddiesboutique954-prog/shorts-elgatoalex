@@ -4,7 +4,16 @@ Consulta el canal para comprobar cuándo se publicó el último video.
 Si se publicó hace menos de X minutos, aborta para evitar saturación y duplicados.
 """
 from datetime import datetime, timezone
-import dateutil.parser
+
+try:
+    import dateutil.parser
+    def parse_iso(dt_str):
+        return dateutil.parser.isoparse(dt_str)
+except ImportError:
+    def parse_iso(dt_str):
+        clean = dt_str.replace("Z", "+00:00")
+        return datetime.fromisoformat(clean)
+
 from core.auth_manager import get_youtube_service
 from config.settings import COOLDOWN_MINUTES
 
@@ -43,7 +52,7 @@ def check_cooldown_lock(cooldown_minutes: int = COOLDOWN_MINUTES) -> tuple[bool,
 
     last_video = playlist_items[0]
     published_at_str = last_video["snippet"]["publishedAt"]
-    published_at = dateutil.parser.isoparse(published_at_str)
+    published_at = parse_iso(published_at_str)
 
     now_utc = datetime.now(timezone.utc)
     delta_seconds = (now_utc - published_at).total_seconds()
