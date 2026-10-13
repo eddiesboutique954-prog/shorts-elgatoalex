@@ -2,12 +2,12 @@ name: Publicar Shorts en YouTube
 
 on:
   schedule:
-    # Horarios en UTC (Equivalentes a Hora Colombia UTC-5):
-    # 02:00 UTC -> 9:00 PM Colombia
-    # 13:00 UTC -> 8:00 AM Colombia
-    # 17:00 UTC -> 12:00 PM Colombia
-    # 22:00 UTC -> 5:00 PM Colombia
-    - cron: '0 2,13,17,22 * * *'
+    # Horarios en UTC (Equivalentes a Hora Colombia UTC-5 optimizados por datos):
+    # 02:00 UTC -> 9:00 PM Colombia (Pico máximo nocturno)
+    # 15:00 UTC -> 10:00 AM Colombia (Pico matutino)
+    # 18:00 UTC -> 1:00 PM Colombia (Pico almuerzo)
+    # 23:00 UTC -> 6:00 PM Colombia (Pico regreso a casa)
+    - cron: '0 2,15,18,23 * * *'
   workflow_dispatch:
     # Permite disparar la publicación manualmente con un clic desde GitHub o la App Móvil
 

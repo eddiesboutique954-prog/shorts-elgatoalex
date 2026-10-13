@@ -47,5 +47,5 @@ DEFAULT_CTA = os.getenv(
 )
 
 # Horarios de publicación objetivo en Colombia (UTC-5):
-# 8:00 AM, 12:00 PM, 5:00 PM, 9:00 PM
-PUBLISH_HOURS_COLOMBIA = [8, 12, 17, 21]
+# 10:00 AM, 1:00 PM, 6:00 PM, 9:00 PM (Los picos más altos comprobados por datos)
+PUBLISH_HOURS_COLOMBIA = [10, 13, 18, 21]

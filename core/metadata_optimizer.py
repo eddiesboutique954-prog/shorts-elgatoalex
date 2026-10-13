@@ -1,16 +1,46 @@
 """
 Optimizador de metadatos inteligente para YouTube Shorts (ElGatoAlex).
-Si el archivo tiene un nombre descriptivo, lo transforma en un título limpio.
-Si el archivo tiene un nombre técnico de cámara (ej. V56_S10..., VID_..., IMG_...),
-genera automáticamente títulos virales de alta retención basados en historias urbanas,
-retos y lecciones de vida.
+Genera títulos virales con gancho y ENLAZA AUTOMÁTICAMENTE a los videos largos
+más vistos del canal para redirigir tráfico masivo y acelerar la monetización por horas de visualización.
 """
 import os
 import re
 import random
-from config.settings import DEFAULT_CTA, DEFAULT_TAGS
 
-# Títulos de alta retención para videos con nombres técnicos
+# Videos largos más exitosos de @ElGatoAlex para redirigir tráfico
+FEATURED_LONG_VIDEOS = [
+    {
+        "id": "diZ_v200IBM",
+        "title": "Se rompió la aguja en cirugía (Historia Completa)",
+        "keywords": ["cirugia", "aguja", "medico", "salud", "hospital"]
+    },
+    {
+        "id": "fUXS2oS60X0",
+        "title": "Ruleta de la suerte: Retos y Sorpresas Callejeras",
+        "keywords": ["ruleta", "sorteo", "premio", "reto", "callejero", "camisetas"]
+    },
+    {
+        "id": "M8gt2lgFYXg",
+        "title": "Ese día me cambió la vida (Testimonio Real)",
+        "keywords": ["vida", "cambio", "reflexion", "testimonio", "superacion", "tiempo"]
+    },
+    {
+        "id": "62FDeAy-ax8",
+        "title": "Gaitán: Historia y Memoria en las Calles de Bogotá",
+        "keywords": ["gaitan", "bogota", "historia", "calle", "heroes", "informal"]
+    },
+    {
+        "id": "i-rk6s2yUTQ",
+        "title": "Iceberg del Voto: Lo que nadie te cuenta",
+        "keywords": ["voto", "politica", "iceberg", "misterio", "secreto"]
+    },
+    {
+        "id": "ilm6vJuRsfQ",
+        "title": "La diferencia entre experiencia e improvisación",
+        "keywords": ["experiencia", "improvisacion", "trabajo", "oficio", "leccion"]
+    }
+]
+
 VIRAL_TITLES_POOL = [
     "Lo Que Nadie Se Esperaba Que Pasara",
     "Esto Me Dejó Sin Palabras",
@@ -35,25 +65,18 @@ VIRAL_TITLES_POOL = [
 ]
 
 def clean_filename_to_title(filename: str) -> str:
-    """
-    Convierte el nombre del archivo en un título viral atractivo para Shorts.
-    """
+    """Convierte el nombre del archivo en un título viral atractivo para Shorts."""
     name = os.path.splitext(filename)[0]
 
-    # Detectar si es un código técnico de cámara o exportación (ej: V56_S10_lv_0_20260426..., IMG_123, VID_2026...)
-    is_technical_name = bool(re.search(r'^(?:v\d+|img|vid|dsc|mov|m4v)[\s_-]*', name, re.IGNORECASE) and re.search(r'\d{6,}', name))
-    
-    # También si el nombre tiene muy pocas letras reales o parece un hash/código
+    # Detectar si es un código técnico de cámara
+    is_technical = bool(re.search(r'^(?:v\d+|img|vid|dsc|mov|m4v)[\s_-]*', name, re.IGNORECASE) and re.search(r'\d{6,}', name))
     clean_words = re.sub(r'[^a-zA-ZáéíóúÁÉÍÓÚñÑ]', ' ', name).split()
-    if is_technical_name or len(clean_words) <= 1:
-        # Seleccionar un título viral con gancho
-        selected_title = random.choice(VIRAL_TITLES_POOL)
-        return f"{selected_title} #Shorts"
 
-    # Si es un nombre descriptivo (ej: 'SHORT_1_Abelardo_Por_Que_Se_Disfraza_De_Toro')
-    # Eliminar prefijos comunes
+    if is_technical or len(clean_words) <= 1:
+        return f"{random.choice(VIRAL_TITLES_POOL)} #Shorts"
+
+    # Si es descriptivo
     name = re.sub(r'^(?:\d+[\s_-]*|video[\s_-]*|short[\s_-]*|img[\s_-]*)', '', name, flags=re.IGNORECASE)
-    # Reemplazar guiones y barras
     name = re.sub(r'[_\-]+', ' ', name).strip()
     title = name.title()
 
@@ -66,20 +89,36 @@ def clean_filename_to_title(filename: str) -> str:
     return title
 
 
+def select_best_long_video(filename: str) -> dict:
+    """Selecciona el video largo más afín al tema del short o rota entre los mejores."""
+    fname_lower = filename.lower()
+    for lv in FEATURED_LONG_VIDEOS:
+        if any(k in fname_lower for k in lv["keywords"]):
+            return lv
+    return random.choice(FEATURED_LONG_VIDEOS)
+
+
 def build_metadata(filename: str, custom_description: str = None, custom_tags: list = None) -> dict:
-    """
-    Construye el conjunto completo de metadatos optimizado para ElGatoAlex.
-    """
+    """Construye metadatos que enlazan estratégicamente al video largo para acelerar la monetización."""
     title = clean_filename_to_title(filename)
+    linked_video = select_best_long_video(filename)
 
     base_desc = custom_description or "Historias reales, momentos inolvidables y lecciones de vida en la ciudad."
-    cta = "🔔 ¡Suscríbete a @ElGatoAlex para más historias y momentos reales todos los días!\n💬 Déjanos tu opinión en los comentarios."
+    
+    # Enlace estratégico al video largo
+    funnel_cta = (
+        f"🎬 MIRA EL VIDEO LARGO COMPLETO AQUÍ:\n"
+        f"👉 https://youtu.be/{linked_video['id']}\n"
+        f"📌 Historia: {linked_video['title']}\n\n"
+        f"🔔 ¡Suscríbete a @ElGatoAlex para más historias y momentos reales todos los días!\n"
+        f"💬 Déjanos tu opinión en los comentarios."
+    )
 
-    hashtags = "#Shorts #Viral #ElGatoAlex #Historias #Tendencias #ParaTi"
+    hashtags = "#Shorts #Viral #ElGatoAlex #HistoriasReales #Bogota #Tendencias #ParaTi"
 
-    full_description = f"{base_desc}\n\n{cta}\n\n{hashtags}"
+    full_description = f"{base_desc}\n\n{funnel_cta}\n\n{hashtags}"
 
-    tags = ["elgatoalex", "historias", "bogota", "colombia", "shorts", "viral", "parati", "fyp", "reflexion"]
+    tags = ["elgatoalex", "historias", "bogota", "colombia", "shorts", "viral", "parati", "fyp", "reflexion", "testimonio"]
     if custom_tags:
         tags.extend(custom_tags)
 
