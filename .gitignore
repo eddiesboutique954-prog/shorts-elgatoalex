@@ -1,0 +1,16 @@
+# Credenciales locales (NUNCA subirlas a Git público ni privado)
+client_secret.json
+token.json
+.env
+AUTH_URL.txt
+GITHUB_SECRETS_LISTOS.txt
+
+# Entornos virtuales y caché
+__pycache__/
+*.pyc
+venv/
+.venv/
+
+# Temporales de video
+temp_*.mp4
+*.tmp
