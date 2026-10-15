@@ -13,6 +13,10 @@ Flujo:
 import os
 import sys
 import tempfile
+
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
+
 from core.cooldown_lock import check_cooldown_lock
 from core.drive_manager import list_pending_videos, download_video_by_id, move_video_to_published
 from core.metadata_optimizer import build_metadata
@@ -32,7 +36,7 @@ def write_github_summary(content: str):
 
 def run_worker():
     print("=" * 60)
-    print("🤖 INICIANDO EJECUCIÓN AUTÓNOMA DE SUBIDA DE SHORTS")
+    print("[AUTOPILOT] INICIANDO EJECUCION AUTONOMA DE SUBIDA DE SHORTS")
     print("=" * 60)
 
     # 1. CANDADO DE COOLDOWN

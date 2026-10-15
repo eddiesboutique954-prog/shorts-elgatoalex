@@ -1,20 +1,18 @@
-name: Publicar Shorts en YouTube
+name: Piloto Automático de Shorts (Rolling Buffer)
 
 on:
   schedule:
-    # Horarios en UTC (Equivalentes a Hora Colombia UTC-5 optimizados por datos):
-    # 02:00 UTC -> 9:00 PM Colombia (Pico máximo nocturno)
-    # 15:00 UTC -> 10:00 AM Colombia (Pico matutino)
-    # 18:00 UTC -> 1:00 PM Colombia (Pico almuerzo)
-    # 23:00 UTC -> 6:00 PM Colombia (Pico regreso a casa)
-    - cron: '0 2,15,18,23 * * *'
+    # Se ejecuta 2 veces al día en minutos no congestionados (ej. :25 y :45)
+    # 08:25 UTC -> 3:25 AM Colombia (Madrugada, carga el día)
+    # 19:45 UTC -> 2:45 PM Colombia (Tarde, revisa y recarga)
+    - cron: '25 8,19 * * *'
   workflow_dispatch:
-    # Permite disparar la publicación manualmente con un clic desde GitHub o la App Móvil
+    # Permite disparar la recarga del colchón manualmente cuando quieras
 
 jobs:
-  publish:
+  replenish_buffer:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
 
     steps:
       - name: Checkout del repositorio
@@ -31,14 +29,13 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Ejecutar Publicador Autónomo de Shorts
+      - name: Mantener Colchón de Shorts en YouTube
         env:
           GOOGLE_CLIENT_SECRET_JSON: ${{ secrets.GOOGLE_CLIENT_SECRET_JSON }}
           GOOGLE_TOKEN_JSON: ${{ secrets.GOOGLE_TOKEN_JSON }}
           GDRIVE_PENDING_FOLDER_ID: ${{ secrets.GDRIVE_PENDING_FOLDER_ID }}
           GDRIVE_PUBLISHED_FOLDER_ID: ${{ secrets.GDRIVE_PUBLISHED_FOLDER_ID }}
-          YOUTUBE_PRIVACY_STATUS: ${{ secrets.YOUTUBE_PRIVACY_STATUS || 'public' }}
-          DEFAULT_CTA: ${{ secrets.DEFAULT_CTA }}
-          COOLDOWN_MINUTES: "45"
+          TARGET_BUFFER: "8"
+          MAX_PER_RUN: "4"
         run: |
-          python worker.py
+          python core/buffer_scheduler.py
