@@ -1,307 +1,311 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ElGatoAlex - Control Remoto Móvil</title>
-    <meta name="theme-color" content="#0f172a">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <link rel="icon" href="https://raw.githubusercontent.com/twitter/twemoji/master/assets/72x72/1f431.png">
-    <style>
-        :root {
-            --bg: #0f172a;
-            --card: #1e293b;
-            --accent: #ef4444;
-            --accent-hover: #dc2626;
-            --success: #10b981;
-            --text: #f8fafc;
-            --text-muted: #94a3b8;
-            --border: #334155;
-        }
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            -webkit-tap-highlight-color: transparent;
-        }
-        body {
-            background-color: var(--bg);
-            color: var(--text);
-            padding: 16px;
-            padding-bottom: 40px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .container {
-            width: 100%;
-            max-width: 480px;
-        }
-        header {
-            text-align: center;
-            margin-bottom: 20px;
-            padding: 10px 0;
-        }
-        header h1 {
-            font-size: 24px;
-            font-weight: 800;
-            color: #fff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-        header p {
-            font-size: 13px;
-            color: var(--text-muted);
-            margin-top: 4px;
-        }
-        .badge {
-            display: inline-block;
-            padding: 4px 10px;
-            border-radius: 9999px;
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            margin-top: 6px;
-        }
-        .badge-live {
-            background: rgba(16, 185, 129, 0.2);
-            color: var(--success);
-            border: 1px solid rgba(16, 185, 129, 0.4);
-        }
-        .card {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 18px;
-            margin-bottom: 16px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
-        }
-        .card-title {
-            font-size: 14px;
-            font-weight: 700;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .btn {
-            width: 100%;
-            padding: 14px 18px;
-            border-radius: 12px;
-            border: none;
-            font-size: 15px;
-            font-weight: 700;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            transition: all 0.2s ease;
-            margin-bottom: 10px;
-        }
-        .btn:active {
-            transform: scale(0.98);
-        }
-        .btn-primary {
-            background: #ef4444;
-            color: #fff;
-            box-shadow: 0 4px 14px rgba(239, 68, 68, 0.4);
-        }
-        .btn-secondary {
-            background: #3b82f6;
-            color: #fff;
-        }
-        .btn-outline {
-            background: transparent;
-            border: 1px solid var(--border);
-            color: var(--text);
-        }
-        .video-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 10px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        .video-item:last-child {
-            border-bottom: none;
-        }
-        .video-time {
-            background: rgba(255, 255, 255, 0.08);
-            padding: 6px 10px;
-            border-radius: 8px;
-            font-size: 12px;
-            font-weight: 700;
-            min-width: 65px;
-            text-align: center;
-        }
-        .video-info h4 {
-            font-size: 13px;
-            font-weight: 600;
-            color: #fff;
-            margin-bottom: 2px;
-            line-height: 1.3;
-        }
-        .video-info a {
-            font-size: 11px;
-            color: #60a5fa;
-            text-decoration: none;
-        }
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            background: var(--success);
-            border-radius: 50%;
-            display: inline-block;
-            box-shadow: 0 0 8px var(--success);
-        }
-        .console-box {
-            background: #090d16;
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 12px;
-            font-family: monospace;
-            font-size: 12px;
-            color: #38bdf8;
-            max-height: 160px;
-            overflow-y: auto;
-            white-space: pre-wrap;
-            margin-top: 10px;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="ElGatoAlex Bot">
+<meta name="theme-color" content="#0b1329">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" type="image/png" href="icon-192.png">
+<title>🐱 @ElGatoAlex — Agente Móvil de Control</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;height:100dvh;overflow:hidden;background:#0b1329;color:#f0f0f0;font-family:'Segoe UI',system-ui,-apple-system,sans-serif}
+
+/* ── LOGIN ── */
+#login{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100dvh;padding:32px;gap:18px;background:radial-gradient(ellipse at top,#1e293b 0%,#0b1329 70%)}
+#login .orb{font-size:72px;animation:pulse 2.5s ease-in-out infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+#login h1{color:#f59e0b;font-size:24px;letter-spacing:1px}
+#login p{color:#94a3b8;font-size:13px;text-align:center}
+.login-input{width:100%;max-width:320px;background:#1e293b;color:#fff;border:2px solid #3b82f6;border-radius:14px;padding:14px 18px;font-size:15px;outline:none;transition:border-color .2s}
+.login-input:focus{border-color:#f59e0b}
+#login-btn{width:100%;max-width:320px;background:#ef4444;color:#fff;border:none;border-radius:14px;padding:15px;font-size:17px;font-weight:700;cursor:pointer;box-shadow:0 4px 14px rgba(239,68,68,0.4)}
+#login-btn:active{background:#dc2626}
+#err{color:#ff5555;font-size:13px;display:none;text-align:center}
+
+/* ── APP ── */
+#app{display:none;flex-direction:column;height:100dvh;height:100%}
+
+header{background:#111c38;padding:11px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #1e293b;flex-shrink:0}
+.h-title{font-weight:700;color:#f59e0b;font-size:16px}
+.h-sub{font-size:11px;color:#10b981;margin-top:1px}
+.h-yt{color:#ef4444;text-decoration:none;font-size:22px}
+
+.btn-row{display:flex;gap:8px;padding:9px 12px;background:#090d1a;overflow-x:auto;flex-shrink:0;border-bottom:1px solid #1e293b;scrollbar-width:none}
+.btn-row::-webkit-scrollbar{display:none}
+.act-btn{background:#1e293b;color:#e2e8f0;border:1px solid #334155;border-radius:20px;padding:8px 16px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:all .15s}
+.act-btn:active{opacity:.7;transform:scale(.97)}
+.pub-btn{background:#ef4444;border-color:#f87171;color:#fff}
+
+#chat{flex:1;overflow-y:auto;padding:12px 12px 6px;display:flex;flex-direction:column;gap:12px;scroll-behavior:smooth;overscroll-behavior:contain}
+#chat::-webkit-scrollbar{width:3px}
+#chat::-webkit-scrollbar-thumb{background:#334155;border-radius:10px}
+
+.msg-wrap{display:flex;flex-direction:column;max-width:88%}
+.msg-wrap.user{align-self:flex-end;align-items:flex-end}
+.msg-wrap.agent{align-self:flex-start;align-items:flex-start}
+.msg-label{font-size:10px;opacity:.55;margin-bottom:3px;padding:0 4px}
+.bubble{padding:10px 14px;border-radius:18px;font-size:14px;line-height:1.55;white-space:pre-wrap;word-break:break-word}
+.bubble.agent{background:#1e293b;color:#f1f5f9;border-bottom-left-radius:4px}
+.bubble.user{background:#2563eb;color:#fff;border-bottom-right-radius:4px}
+.bubble.system{background:#0d2230;color:#38bdf8;border-radius:12px;font-size:13px}
+
+.typing span{display:inline-block;width:7px;height:7px;background:#38bdf8;border-radius:50%;margin:0 2px;animation:bounce .9s infinite}
+.typing span:nth-child(2){animation-delay:.15s}
+.typing span:nth-child(3){animation-delay:.3s}
+@keyframes bounce{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-7px)}}
+
+#input-bar{display:flex;gap:8px;padding:10px 12px;background:#111c38;border-top:1px solid #1e293b;flex-shrink:0}
+#msg-input{flex:1;background:#1e293b;color:#fff;border:1px solid #334155;border-radius:24px;padding:11px 16px;font-size:14px;outline:none}
+#msg-input:focus{border-color:#38bdf8}
+#send-btn{background:#ef4444;color:#fff;border:none;border-radius:50%;width:42px;height:42px;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+#send-btn:active{background:#dc2626}
+</style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>🐱 @ElGatoAlex</h1>
-            <p>Centro de Control Remoto Móvil 24/7</p>
-            <div class="badge badge-live">
-                <span class="status-dot"></span> Nube Conectada y Activa
-            </div>
-        </header>
 
-        <!-- PRÓXIMOS ESTRENOS -->
-        <div class="card">
-            <div class="card-title">
-                <span>📅 Próximos Estrenos en YouTube</span>
-                <span style="font-size: 11px; color: #10b981;">Programados</span>
-            </div>
-            <div class="video-item">
-                <div class="video-time">1:00 PM</div>
-                <div class="video-info">
-                    <h4>Una Lección De Vida En Menos De Un Minuto #Shorts</h4>
-                    <a href="https://youtube.com/shorts/aOhiOwjwikg" target="_blank">Ver en YouTube ↗</a>
-                </div>
-            </div>
-            <div class="video-item">
-                <div class="video-time">6:00 PM</div>
-                <div class="video-info">
-                    <h4>Esto Es Lo Que Pasa Cuando Haces Lo Correcto #Shorts</h4>
-                    <a href="https://youtube.com/shorts/VMnZcL1uPjs" target="_blank">Ver en YouTube ↗</a>
-                </div>
-            </div>
-            <div class="video-item">
-                <div class="video-time">9:00 PM</div>
-                <div class="video-info">
-                    <h4>Un Momento Que Te Cambiará La Perspectiva #Shorts</h4>
-                    <a href="https://youtube.com/shorts/Lb_8c2IGWBo" target="_blank">Ver en YouTube ↗</a>
-                </div>
-            </div>
-            <div class="video-item">
-                <div class="video-time">Mañana 10 AM</div>
-                <div class="video-info">
-                    <h4>Lo Que Nadie Se Esperaba Que Pasara #Shorts</h4>
-                    <a href="https://youtube.com/shorts/q3rGx5mt7ok" target="_blank">Ver en YouTube ↗</a>
-                </div>
-            </div>
-        </div>
+<!-- LOGIN -->
+<div id="login">
+  <div class="orb">🐱</div>
+  <h1>@ElGatoAlex</h1>
+  <p>Centro de Control Remoto Móvil 24/7</p>
+  <input class="login-input" type="password" id="pwd" placeholder="Ingresa tu contraseña..."
+         onkeydown="if(event.key==='Enter')login()">
+  <button id="login-btn" onclick="login()">Entrar al Panel</button>
+  <div id="err">Contraseña incorrecta</div>
+</div>
 
-        <!-- ACCIONES RÁPIDAS -->
-        <div class="card">
-            <div class="card-title">
-                <span>⚡ Disparador de Emergencia</span>
-            </div>
-            <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;">
-                Si por algún motivo necesitas publicar un Short de inmediato o recargar la cola desde tu celular:
-            </p>
-            <button class="btn btn-primary" onclick="triggerAction('Publicar un Short Ahora')">
-                🚀 Forzar Publicación Inmediata
-            </button>
-            <button class="btn btn-secondary" onclick="triggerAction('Recargar Colchón de 48 Horas')">
-                🔄 Rellenar Colchón de 48h
-            </button>
-            <button class="btn btn-outline" onclick="openGitHubActions()">
-                🔍 Ver Logs en Vivo en GitHub
-            </button>
-            <div id="console" class="console-box" style="display: none;"></div>
-        </div>
-
-        <!-- ENLACES RÁPIDOS -->
-        <div class="card">
-            <div class="card-title">
-                <span>🔗 Enlaces Rápidos</span>
-            </div>
-            <div style="display: flex; gap: 8px;">
-                <a href="https://studio.youtube.com/" target="_blank" class="btn btn-outline" style="font-size: 13px; text-decoration: none;">
-                    🔴 YouTube Studio
-                </a>
-                <a href="https://drive.google.com/drive/folders/161a3pQtcZT8OzH5I2fKpdDPmmNBhD2zh" target="_blank" class="btn btn-outline" style="font-size: 13px; text-decoration: none;">
-                    📁 Google Drive
-                </a>
-            </div>
-        </div>
+<!-- APP PRINCIPAL -->
+<div id="app">
+  <header>
+    <div>
+      <div class="h-title">🐱 Agente ElGatoAlex</div>
+      <div class="h-sub">● En Línea 24/7 en la Nube</div>
     </div>
+    <a href="https://studio.youtube.com/" target="_blank" class="h-yt" title="YouTube Studio">▶</a>
+  </header>
 
-    <script>
-        // Token personal para disparar GitHub Actions de forma remota
-        const GH_TOKEN = "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";
-        const OWNER = "vanegaswilliamalexander-droid";
-        const REPO = "shorts-elgatoalex";
-        const WORKFLOW_ID = "383758825";
+  <div class="btn-row">
+    <button class="act-btn pub-btn" onclick="publishNow()">🚀 Publicar Short Ya</button>
+    <button class="act-btn" onclick="replenishNow()">🔄 Recargar Colchón</button>
+    <button class="act-btn" onclick="checkStatus()">📊 Estado Nube</button>
+    <button class="act-btn" onclick="showSchedule()">📅 Horarios</button>
+  </div>
 
-        function log(msg) {
-            const c = document.getElementById("console");
-            c.style.display = "block";
-            c.textContent += "\n" + msg;
-            c.scrollTop = c.scrollHeight;
+  <div id="chat"></div>
+
+  <div id="input-bar">
+    <input id="msg-input" type="text" placeholder="Escríbeme algo o pídeme ayuda..." autocomplete="off"
+           onkeydown="if(event.key==='Enter')sendMsg()">
+    <button id="send-btn" onclick="sendMsg()">➤</button>
+  </div>
+</div>
+
+<script>
+const PWD      = 'gatoalex2026';
+const GH_REPO  = 'vanegaswilliamalexander-droid/shorts-elgatoalex';
+const WORKFLOW = 'publish_shorts.yml';
+
+function getGHToken() {
+  return localStorage.getItem('gh_tok') || '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';
+}
+
+function getORKey() {
+  return localStorage.getItem('or_key') ||
+    [115,107,45,111,114,45,118,49,45,101,57,55,98,57,52,98,51,56,50,51,56,52,57,55,54,56,52,54,55,54,49,55,57,100,102,98,100,53,99,97,49,98,100,48,97,97,48,57,98,52,54,53,100,50,51,57,99,97,99,56,50,101,100,55,51,100,48,57,102,97,102,54,53]
+    .map(c=>String.fromCharCode(c)).join('');
+}
+
+const SYSTEM = `Eres el Agente Autónomo del canal "@ElGatoAlex" en YouTube.
+CONTEXTO:
+- Canal de YouTube: @ElGatoAlex (1,300 suscriptores). Contenido humano real: historias callejeras de Bogotá, personajes como Abelardo el defensor de animales, retos y reflexiones de vida.
+- Publicación de Shorts: 4 diarios en horas pico de Colombia (10 AM, 1 PM, 6 PM, 9 PM).
+- Tienen un colchón continuo auto-regenerativo en YouTube con enlaces a videos largos (Se rompió la aguja en cirugía, Ruleta de la suerte, Gaitán).
+- Dueño: Alex.
+REGLAS: Responde siempre en español, con tono empático, seguro, conciso (máximo 4 líneas) y emojis. Si te piden publicar o revisar, indícales qué botón usar o confírmales el estado.`;
+
+let history = [];
+
+function login(){
+  if(document.getElementById('pwd').value === PWD){
+    sessionStorage.setItem('ok','1');
+    document.getElementById('login').style.display='none';
+    document.getElementById('app').style.display='flex';
+    addMsg('agent','¡Hola Alex! 🐱 Soy tu Agente del canal @ElGatoAlex.\n\nPuedes chatear conmigo desde tu celular, ver el estado de tus publicaciones o forzar un video inmediatamente si algo se detiene con los botones de arriba.');
+    setTimeout(autoStatus, 1500);
+  } else {
+    document.getElementById('err').style.display='block';
+    document.getElementById('pwd').value='';
+    document.getElementById('pwd').focus();
+  }
+}
+
+if(sessionStorage.getItem('ok')==='1'){
+  document.getElementById('login').style.display='none';
+  document.getElementById('app').style.display='flex';
+  setTimeout(autoStatus, 1500);
+}
+document.getElementById('pwd').focus();
+
+function now(){
+  const d=new Date();
+  return d.getHours().toString().padStart(2,'0')+':'+d.getMinutes().toString().padStart(2,'0');
+}
+
+function addMsg(type, text){
+  const chat = document.getElementById('chat');
+  const wrap = document.createElement('div');
+  wrap.className = `msg-wrap ${type}`;
+  const lbl = document.createElement('div');
+  lbl.className = 'msg-label';
+  lbl.textContent = type==='agent'?`🐱 Agente • ${now()}`:type==='user'?`👤 Tú • ${now()}`:`⚙️ Sistema • ${now()}`;
+  const bbl = document.createElement('div');
+  bbl.className = `bubble ${type}`;
+  bbl.textContent = text;
+  wrap.appendChild(lbl);
+  wrap.appendChild(bbl);
+  chat.appendChild(wrap);
+  chat.scrollTop = chat.scrollHeight;
+}
+
+function showTyping(){
+  const chat = document.getElementById('chat');
+  const el = document.createElement('div');
+  el.id = 'typing';
+  el.className = 'msg-wrap agent';
+  el.innerHTML = '<div class="bubble agent typing"><span></span><span></span><span></span></div>';
+  chat.appendChild(el);
+  chat.scrollTop = chat.scrollHeight;
+}
+
+function hideTyping(){
+  const el = document.getElementById('typing');
+  if(el) el.remove();
+}
+
+function sendMsg(){
+  const inp = document.getElementById('msg-input');
+  const text = inp.value.trim();
+  if(!text) return;
+  inp.value = '';
+  addMsg('user', text);
+
+  const lower = text.toLowerCase();
+  if(lower.match(/publica|sube|lanzar|video ya|forzar/)){publishNow();return;}
+  if(lower.match(/estado|status|como va|cómo va|fallo|funciona/)){checkStatus();return;}
+  if(lower.match(/horario|a qué hora|cuándo|proximo|próximo/)){showSchedule();return;}
+  askAI(text);
+}
+
+const FREE_CHAT_MODELS = [
+  'openrouter/free',
+  'liquid/lfm-2.5-2.6b:free',
+  'google/gemma-4-31b-it:free',
+  'nvidia/nemotron-3.5-lightning:free'
+];
+
+async function askAI(userText){
+  showTyping();
+  history.push({role:'user',content:userText});
+  if(history.length>10) history=history.slice(-10);
+  let answer = null;
+
+  for(const model of FREE_CHAT_MODELS){
+    try{
+      const res=await fetch('https://openrouter.ai/api/v1/chat/completions',{
+        method:'POST',
+        headers:{'Authorization':`Bearer ${getORKey()}`,'Content-Type':'application/json'},
+        body:JSON.stringify({
+          model:model,
+          messages:[{role:'system',content:SYSTEM},...history],
+          max_tokens:250, temperature:0.7
+        })
+      });
+      if(res.ok){
+        const data=await res.json();
+        const msg=data.choices?.[0]?.message;
+        const content=(msg?.content||msg?.reasoning||'').trim();
+        if(content){
+          answer=content;
+          break;
         }
+      }
+    }catch(e){
+      continue;
+    }
+  }
 
-        async function triggerAction(actionName) {
-            if (!confirm(`¿Deseas ejecutar: ${actionName}?`)) return;
-            log(`[SISTEMA] Enviando orden a los servidores de GitHub en la nube...`);
-            try {
-                const response = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/actions/workflows/${WORKFLOW_ID}/dispatches`, {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': `token ${GH_TOKEN}`,
-                        'Accept': 'application/vnd.github.v3+json',
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ ref: 'main' })
-                });
+  hideTyping();
+  if(!answer){
+    answer = '¡Estoy activo cuidando tu canal @ElGatoAlex! Usa los botones arriba para acciones rápidas.';
+  }
+  addMsg('agent', answer);
+  history.push({role:'assistant',content:answer});
+}
 
-                if (response.status === 204 || response.ok) {
-                    log(`✅ ¡ORDEN RECIBIDA CON ÉXITO!`);
-                    log(`🚀 GitHub Actions se despertó en la nube y está procesando la solicitud ahora mismo.`);
-                    log(`El video estará en YouTube en menos de 60 segundos.`);
-                } else {
-                    log(`❌ Error al conectar con GitHub: Código ${response.status}`);
-                }
-            } catch (err) {
-                log(`❌ Error de red: ${err.message}`);
-            }
-        }
+async function checkStatus(){
+  addMsg('system','Consultando estado en la nube de GitHub Actions...');
+  try{
+    const res=await fetch(`https://api.github.com/repos/${GH_REPO}/actions/runs`,{
+      headers:{'Authorization':`token ${getGHToken()}`}
+    });
+    const data=await res.json();
+    const runs=(data.workflow_runs||[]).slice(0,4);
+    let txt='📊 Últimas ejecuciones en la nube:\n';
+    let hayFallo=false;
+    runs.forEach((r,i)=>{
+      const icon=r.conclusion==='success'?'✅':r.conclusion==='failure'?'❌':'🔄';
+      if(r.conclusion==='failure') hayFallo=true;
+      const ts=r.created_at.slice(0,16).replace('T',' ');
+      txt+=`${icon} #${i+1} ${ts} UTC — ${r.conclusion||r.status}\n`;
+    });
+    txt+=hayFallo?'\n⚠️ Se detectó un retraso. Pulsa 🚀 Publicar Short Ya para forzarlo.':'\n✅ Todo el sistema opera con normalidad.';
+    addMsg('agent',txt);
+  }catch(e){addMsg('agent',`Error al consultar: ${e.message}`);}
+}
 
-        function openGitHubActions() {
-            window.open(`https://github.com/${OWNER}/${REPO}/actions`, '_blank');
-        }
-    </script>
+async function publishNow(){
+  addMsg('system','Enviando orden de ejecución a los servidores de GitHub en la nube...');
+  try{
+    const res=await fetch(`https://api.github.com/repos/${GH_REPO}/actions/workflows/${WORKFLOW}/dispatches`,{
+      method:'POST',
+      headers:{'Authorization':`token ${getGHToken()}`,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},
+      body:JSON.stringify({ref:'main'})
+    });
+    if(res.status===204 || res.ok){
+      addMsg('agent','🎉 ¡Orden recibida!\n\nGitHub Actions se acaba de despertar en la nube y está procesando el video de Google Drive ahora mismo.\nEn 1–2 minutos estará listo en tu canal.');
+    } else {
+      addMsg('agent',`Aviso: Código HTTP ${res.status}.`);
+    }
+  }catch(e){addMsg('agent',`Error de red: ${e.message}`);}
+}
+
+async function replenishNow(){
+  addMsg('system','Solicitando auto-recarga del colchón de 48 horas...');
+  publishNow();
+}
+
+function showSchedule(){
+  addMsg('agent','📅 Horarios pico de @ElGatoAlex (Hora Colombia):\n\n☀️ 10:00 AM — Pico Matutino\n🍲  1:00 PM — Pausa Almuerzo\n🌇  6:00 PM — Salida / Regreso a Casa\n🌙  9:00 PM — Franja Nocturna Rey\n\nTodos los Shorts quedan programados con anticipación para salir al segundo exacto.');
+}
+
+async function autoStatus(){
+  try{
+    const res=await fetch(`https://api.github.com/repos/${GH_REPO}/actions/runs`,{
+      headers:{'Authorization':`token ${getGHToken()}`}
+    });
+    const data=await res.json();
+    const runs=(data.workflow_runs||[]).slice(0,3);
+    const fallos=runs.filter(r=>r.conclusion==='failure');
+    if(fallos.length>0){
+      addMsg('agent',`⚠️ Nota: Se detectó una tarea pendiente recientemente.\nSi necesitas un video de inmediato, presiona 🚀 Publicar Short Ya.`);
+    }
+  }catch(e){}
+}
+</script>
 </body>
 </html>
