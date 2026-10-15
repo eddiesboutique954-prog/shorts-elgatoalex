@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ElGatoAlex - Control Remoto Móvil</title>
+    <meta name="theme-color" content="#0f172a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="icon" href="https://raw.githubusercontent.com/twitter/twemoji/master/assets/72x72/1f431.png">
+    <style>
+        :root {
+            --bg: #0f172a;
+            --card: #1e293b;
+            --accent: #ef4444;
+            --accent-hover: #dc2626;
+            --success: #10b981;
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            padding: 16px;
+            padding-bottom: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            width: 100%;
+            max-width: 480px;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 10px 0;
+        }
+        header h1 {
+            font-size: 24px;
+            font-weight: 800;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        header p {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 9999px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-top: 6px;
+        }
+        .badge-live {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success);
+            border: 1px solid rgba(16, 185, 129, 0.4);
+        }
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 18px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+        }
+        .card-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .btn {
+            width: 100%;
+            padding: 14px 18px;
+            border-radius: 12px;
+            border: none;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+            margin-bottom: 10px;
+        }
+        .btn:active {
+            transform: scale(0.98);
+        }
+        .btn-primary {
+            background: #ef4444;
+            color: #fff;
+            box-shadow: 0 4px 14px rgba(239, 68, 68, 0.4);
+        }
+        .btn-secondary {
+            background: #3b82f6;
+            color: #fff;
+        }
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text);
+        }
+        .video-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .video-item:last-child {
+            border-bottom: none;
+        }
+        .video-time {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            min-width: 65px;
+            text-align: center;
+        }
+        .video-info h4 {
+            font-size: 13px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 2px;
+            line-height: 1.3;
+        }
+        .video-info a {
+            font-size: 11px;
+            color: #60a5fa;
+            text-decoration: none;
+        }
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--success);
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 8px var(--success);
+        }
+        .console-box {
+            background: #090d16;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 12px;
+            font-family: monospace;
+            font-size: 12px;
+            color: #38bdf8;
+            max-height: 160px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🐱 @ElGatoAlex</h1>
+            <p>Centro de Control Remoto Móvil 24/7</p>
+            <div class="badge badge-live">
+                <span class="status-dot"></span> Nube Conectada y Activa
+            </div>
+        </header>
+
+        <!-- PRÓXIMOS ESTRENOS -->
+        <div class="card">
+            <div class="card-title">
+                <span>📅 Próximos Estrenos en YouTube</span>
+                <span style="font-size: 11px; color: #10b981;">Programados</span>
+            </div>
+            <div class="video-item">
+                <div class="video-time">1:00 PM</div>
+                <div class="video-info">
+                    <h4>Una Lección De Vida En Menos De Un Minuto #Shorts</h4>
+                    <a href="https://youtube.com/shorts/aOhiOwjwikg" target="_blank">Ver en YouTube ↗</a>
+                </div>
+            </div>
+            <div class="video-item">
+                <div class="video-time">6:00 PM</div>
+                <div class="video-info">
+                    <h4>Esto Es Lo Que Pasa Cuando Haces Lo Correcto #Shorts</h4>
+                    <a href="https://youtube.com/shorts/VMnZcL1uPjs" target="_blank">Ver en YouTube ↗</a>
+                </div>
+            </div>
+            <div class="video-item">
+                <div class="video-time">9:00 PM</div>
+                <div class="video-info">
+                    <h4>Un Momento Que Te Cambiará La Perspectiva #Shorts</h4>
+                    <a href="https://youtube.com/shorts/Lb_8c2IGWBo" target="_blank">Ver en YouTube ↗</a>
+                </div>
+            </div>
+            <div class="video-item">
+                <div class="video-time">Mañana 10 AM</div>
+                <div class="video-info">
+                    <h4>Lo Que Nadie Se Esperaba Que Pasara #Shorts</h4>
+                    <a href="https://youtube.com/shorts/q3rGx5mt7ok" target="_blank">Ver en YouTube ↗</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- ACCIONES RÁPIDAS -->
+        <div class="card">
+            <div class="card-title">
+                <span>⚡ Disparador de Emergencia</span>
+            </div>
+            <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;">
+                Si por algún motivo necesitas publicar un Short de inmediato o recargar la cola desde tu celular:
+            </p>
+            <button class="btn btn-primary" onclick="triggerAction('Publicar un Short Ahora')">
+                🚀 Forzar Publicación Inmediata
+            </button>
+            <button class="btn btn-secondary" onclick="triggerAction('Recargar Colchón de 48 Horas')">
+                🔄 Rellenar Colchón de 48h
+            </button>
+            <button class="btn btn-outline" onclick="openGitHubActions()">
+                🔍 Ver Logs en Vivo en GitHub
+            </button>
+            <div id="console" class="console-box" style="display: none;"></div>
+        </div>
+
+        <!-- ENLACES RÁPIDOS -->
+        <div class="card">
+            <div class="card-title">
+                <span>🔗 Enlaces Rápidos</span>
+            </div>
+            <div style="display: flex; gap: 8px;">
+                <a href="https://studio.youtube.com/" target="_blank" class="btn btn-outline" style="font-size: 13px; text-decoration: none;">
+                    🔴 YouTube Studio
+                </a>
+                <a href="https://drive.google.com/drive/folders/161a3pQtcZT8OzH5I2fKpdDPmmNBhD2zh" target="_blank" class="btn btn-outline" style="font-size: 13px; text-decoration: none;">
+                    📁 Google Drive
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Token personal para disparar GitHub Actions de forma remota
+        const GH_TOKEN = "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";
+        const OWNER = "vanegaswilliamalexander-droid";
+        const REPO = "shorts-elgatoalex";
+        const WORKFLOW_ID = "383758825";
+
+        function log(msg) {
+            const c = document.getElementById("console");
+            c.style.display = "block";
+            c.textContent += "\n" + msg;
+            c.scrollTop = c.scrollHeight;
+        }
+
+        async function triggerAction(actionName) {
+            if (!confirm(`¿Deseas ejecutar: ${actionName}?`)) return;
+            log(`[SISTEMA] Enviando orden a los servidores de GitHub en la nube...`);
+            try {
+                const response = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/actions/workflows/${WORKFLOW_ID}/dispatches`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `token ${GH_TOKEN}`,
+                        'Accept': 'application/vnd.github.v3+json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ ref: 'main' })
+                });
+
+                if (response.status === 204 || response.ok) {
+                    log(`✅ ¡ORDEN RECIBIDA CON ÉXITO!`);
+                    log(`🚀 GitHub Actions se despertó en la nube y está procesando la solicitud ahora mismo.`);
+                    log(`El video estará en YouTube en menos de 60 segundos.`);
+                } else {
+                    log(`❌ Error al conectar con GitHub: Código ${response.status}`);
+                }
+            } catch (err) {
+                log(`❌ Error de red: ${err.message}`);
+            }
+        }
+
+        function openGitHubActions() {
+            window.open(`https://github.com/${OWNER}/${REPO}/actions`, '_blank');
+        }
+    </script>
+</body>
+</html>
