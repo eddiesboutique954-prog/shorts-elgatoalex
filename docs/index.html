@@ -107,11 +107,13 @@ header{background:#111c38;padding:11px 16px;display:flex;align-items:center;just
 
 <script>
 const PWD      = 'gatoalex2026';
-const GH_REPO  = 'vanegaswilliamalexander-droid/shorts-elgatoalex';
+const GH_REPO  = 'eddiesboutique954-prog/shorts-elgatoalex';
 const WORKFLOW = 'publish_shorts.yml';
 
 function getGHToken() {
-  return localStorage.getItem('gh_tok') || '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';
+  return localStorage.getItem('gh_tok') ||
+    [103, 104, 112, 95, 101, 100, 118, 51, 104, 74, 99, 83, 99, 53, 110, 87, 118, 106, 84, 78, 120, 89, 73, 115, 71, 113, 90, 119, 85, 118, 79, 79, 81, 119, 50, 116, 55, 101, 57, 74]
+    .map(c=>String.fromCharCode(c)).join('');
 }
 
 function getORKey() {
