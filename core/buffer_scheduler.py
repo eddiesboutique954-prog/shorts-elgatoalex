@@ -160,16 +160,16 @@ def run_buffer_replenish():
         file_id = video_info["id"]
         fname = video_info["name"]
         
-        # Generar metadatos únicos
-        meta = build_metadata(fname)
+        # Generar metadatos únicos limpios y atractivos
+        attempts = 0
+        meta = build_metadata(fname, variant_index=attempts)
         title = meta["title"]
         
-        # Si el título ya fue usado, regenerar uno alternativo
-        attempts = 0
+        # Si el título ya fue usado, rotar variante sin alterar el nombre del archivo
         while title in used_titles and attempts < 15:
-            meta = build_metadata(f"alt_{attempts}_{fname}")
-            title = meta["title"]
             attempts += 1
+            meta = build_metadata(fname, variant_index=attempts)
+            title = meta["title"]
             
         used_titles.add(title)
         save_used_title(title)

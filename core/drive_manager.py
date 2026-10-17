@@ -4,15 +4,34 @@ Permite listar la cola de videos pendientes, descargar el siguiente video y move
 """
 import io
 import os
+import re
 from googleapiclient.http import MediaIoBaseDownload
 from core.auth_manager import get_drive_service
 from config.settings import GDRIVE_PENDING_FOLDER_ID, GDRIVE_PUBLISHED_FOLDER_ID
 
 
+def _natural_video_sort_key(f: dict):
+    """
+    Ordena las series de videos de la más nueva a la más antigua (V56 -> V55 -> V54...),
+    pero respetando el orden secuencial de sus partes (S01 -> S02 -> S03...)
+    para que la historia se publique en el orden correcto para la audiencia.
+    """
+    name = f.get("name", "")
+    m = re.match(r'^[Vv](\d+)[_-][Ss](\d+)', name)
+    if m:
+        v_num = int(m.group(1))
+        s_num = int(m.group(2))
+        return (-v_num, s_num, name)
+    m_short = re.match(r'^SHORT_(\d+)', name, re.IGNORECASE)
+    if m_short:
+        return (0, int(m_short.group(1)), name)
+    return (1, 0, name)
+
+
 def list_pending_videos(folder_id: str = None) -> list:
     """
     Obtiene la lista de videos pendientes en la carpeta de Google Drive,
-    ordenados alfabéticamente por nombre para preservar el orden natural de subida.
+    ordenados con orden natural (series más recientes primero, pero partes en orden 1 a N).
     """
     target_folder = folder_id or GDRIVE_PENDING_FOLDER_ID
     if not target_folder:
@@ -28,10 +47,11 @@ def list_pending_videos(folder_id: str = None) -> list:
     results = drive_service.files().list(
         q=query,
         fields="files(id, name, mimeType, size, createdTime)",
-        orderBy="name desc"
+        pageSize=100
     ).execute()
 
     files = results.get("files", [])
+    files.sort(key=_natural_video_sort_key)
     return files
 
 

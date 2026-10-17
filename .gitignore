@@ -14,3 +14,12 @@ venv/
 # Temporales de video
 temp_*.mp4
 *.tmp
+test_frames/
+test_*.py
+inspect_*.py
+transcribe_*.py
+identify_*.py
+check_*.py
+fix_*.py
+list_*.py
+generate_pwa_assets.py
