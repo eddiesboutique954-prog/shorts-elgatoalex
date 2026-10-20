@@ -35,7 +35,8 @@ def upload_video_to_youtube(
     description: str,
     tags: list = None,
     privacy_status: str = DEFAULT_PRIVACY_STATUS,
-    category_id: str = YOUTUBE_CATEGORY_ID
+    category_id: str = YOUTUBE_CATEGORY_ID,
+    localizations: dict = None
 ) -> dict:
     """
     Sube un video vertical a YouTube como Short usando subida reanudable.
@@ -48,13 +49,19 @@ def upload_video_to_youtube(
             "title": title,
             "description": description,
             "tags": tags or ["shorts"],
-            "categoryId": category_id
+            "categoryId": category_id,
+            "defaultLanguage": "es",
+            "defaultAudioLanguage": "es"
         },
         "status": {
             "privacyStatus": privacy_status,
             "selfDeclaredMadeForKids": False
         }
     }
+
+    # Añadir localizaciones multilingües si están disponibles
+    if localizations:
+        body["localizations"] = localizations
 
     # Chunk de 4MB para subida estable
     media = MediaFileUpload(
@@ -64,8 +71,13 @@ def upload_video_to_youtube(
         mimetype="video/*"
     )
 
+    # Determinar las partes del request (incluir localizations si hay)
+    parts = ["snippet", "status"]
+    if localizations:
+        parts.append("localizations")
+
     request = youtube.videos().insert(
-        part=",".join(body.keys()),
+        part=",".join(parts),
         body=body,
         media_body=media
     )

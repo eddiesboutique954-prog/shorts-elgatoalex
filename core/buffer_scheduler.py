@@ -191,7 +191,9 @@ def run_buffer_replenish():
                     "title": title,
                     "description": meta["description"],
                     "tags": meta["tags"],
-                    "categoryId": "22"
+                    "categoryId": "22",
+                    "defaultLanguage": "es",
+                    "defaultAudioLanguage": "es"
                 },
                 "status": {
                     "privacyStatus": "private",
@@ -200,8 +202,17 @@ def run_buffer_replenish():
                 }
             }
             
+            # Añadir localizaciones multilingües
+            localizations = meta.get("localizations", {})
+            if localizations:
+                body["localizations"] = localizations
+            
+            upload_part = "snippet,status"
+            if localizations:
+                upload_part = "snippet,status,localizations"
+            
             media = MediaFileUpload(local_temp, chunksize=1024*1024*4, resumable=True)
-            request = youtube.videos().insert(part="snippet,status", body=body, media_body=media)
+            request = youtube.videos().insert(part=upload_part, body=body, media_body=media)
             
             resp = None
             while resp is None:

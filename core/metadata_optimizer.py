@@ -7,6 +7,7 @@ más vistos del canal para redirigir tráfico masivo y acelerar la monetización
 import os
 import re
 import random
+from core.multilang_translator import generate_localizations
 
 # Videos largos más exitosos de @ElGatoAlex para redirigir tráfico
 FEATURED_LONG_VIDEOS = [
@@ -230,8 +231,12 @@ def build_metadata(filename: str, custom_description: str = None, custom_tags: l
     if custom_tags:
         tags.extend(custom_tags)
 
+    # Generar localizaciones (títulos y descripciones en varios idiomas)
+    localizations = generate_localizations(title, base_desc)
+    
     return {
         "title": title,
         "description": full_description,
-        "tags": tags[:15]
+        "tags": tags[:15],
+        "localizations": localizations
     }

@@ -68,9 +68,11 @@ def run_worker():
     title = metadata["title"]
     description = metadata["description"]
     tags = metadata["tags"]
+    localizations = metadata.get("localizations", {})
 
     print(f"[METADATOS] Título generado: {title}")
     print(f"[METADATOS] Tags: {', '.join(tags)}")
+    print(f"[METADATOS] Localizaciones: {len(localizations)} idiomas")
 
     # 4. DESCARGA EFÍMERA
     temp_dir = tempfile.gettempdir()
@@ -84,7 +86,8 @@ def run_worker():
             file_path=local_temp_path,
             title=title,
             description=description,
-            tags=tags
+            tags=tags,
+            localizations=localizations
         )
 
         video_id = upload_result["id"]

@@ -115,7 +115,9 @@ def schedule_batch(max_videos_per_run: int = 4):
                 "title": meta["title"],
                 "description": meta["description"],
                 "tags": meta["tags"],
-                "categoryId": "22"
+                "categoryId": "22",
+                "defaultLanguage": "es",
+                "defaultAudioLanguage": "es"
             },
             "status": {
                 "privacyStatus": "private",  # Debe ser private para programar fecha de publicación
@@ -124,9 +126,18 @@ def schedule_batch(max_videos_per_run: int = 4):
             }
         }
         
+        # Añadir localizaciones multilingües
+        localizations = meta.get("localizations", {})
+        if localizations:
+            body["localizations"] = localizations
+        
+        upload_part = "snippet,status"
+        if localizations:
+            upload_part = "snippet,status,localizations"
+        
         media = MediaFileUpload(fpath, chunksize=1024*1024*4, resumable=True)
         request = youtube.videos().insert(
-            part="snippet,status",
+            part=upload_part,
             body=body,
             media_body=media
         )
