@@ -215,10 +215,19 @@ def run_buffer_replenish():
             request = youtube.videos().insert(part=upload_part, body=body, media_body=media)
             
             resp = None
+            retry_count = 0
             while resp is None:
-                st, resp = request.next_chunk()
-                if st:
-                    print(f"   Subiendo: {int(st.progress() * 100)}%", flush=True)
+                try:
+                    st, resp = request.next_chunk()
+                    if st:
+                        print(f"   Subiendo: {int(st.progress() * 100)}%", flush=True)
+                except Exception as chunk_err:
+                    retry_count += 1
+                    if retry_count > 3:
+                        raise chunk_err
+                    print(f"   ⚠️ Reintentando fragmento ({retry_count}/3): {chunk_err}")
+                    import time
+                    time.sleep(2 * retry_count)
                     
             vid_id = resp.get("id")
             print(f"   ✅ ¡PROGRAMADO EN YOUTUBE! https://youtube.com/shorts/{vid_id}")
@@ -226,6 +235,8 @@ def run_buffer_replenish():
             # Mover archivo en Google Drive a Publicados
             move_video_to_published(file_id)
             
+        except Exception as video_err:
+            print(f"   ❌ Error procesando '{fname}': {video_err}. Continuando con el siguiente video...")
         finally:
             if os.path.exists(local_temp):
                 try:
