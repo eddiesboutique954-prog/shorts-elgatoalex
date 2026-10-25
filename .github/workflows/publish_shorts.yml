@@ -1,13 +1,43 @@
-name: Piloto Automático de Shorts (Rolling Buffer) - DESACTIVADO
+name: Piloto Automático de Shorts (Rolling Buffer)
 
 on:
+  schedule:
+    # Se ejecuta 4 veces al día (cada 6 horas) en servidores globales de GitHub (Independiente de la PC)
+    # 02:20 UTC -> 9:20 PM Colombia
+    # 08:20 UTC -> 3:20 AM Colombia
+    # 14:20 UTC -> 9:20 AM Colombia
+    # 20:20 UTC -> 3:20 PM Colombia
+    - cron: '20 2,8,14,20 * * *'
   workflow_dispatch:
-    # Desactivado permanentemente para evitar subidas conflictivas al canal de Fe y Oración
+    # Permite disparar la recarga del colchón manualmente cuando quieras
 
 jobs:
   replenish_buffer:
     runs-on: ubuntu-latest
-    if: false
+    timeout-minutes: 25
+
     steps:
-      - name: Desactivado
-        run: echo "Workflow desactivado permanentemente para proteger el canal de YouTube."
+      - name: Checkout del repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Instalar dependencias
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Mantener Colchón de Shorts en YouTube
+        env:
+          GOOGLE_CLIENT_SECRET_JSON: ${{ secrets.GOOGLE_CLIENT_SECRET_JSON }}
+          GOOGLE_TOKEN_JSON: ${{ secrets.GOOGLE_TOKEN_JSON }}
+          GDRIVE_PENDING_FOLDER_ID: ${{ secrets.GDRIVE_PENDING_FOLDER_ID }}
+          GDRIVE_PUBLISHED_FOLDER_ID: ${{ secrets.GDRIVE_PUBLISHED_FOLDER_ID }}
+          TARGET_BUFFER: "12"
+          MAX_PER_RUN: "4"
+        run: |
+          python core/buffer_scheduler.py
