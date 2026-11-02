@@ -169,7 +169,7 @@ def clean_filename_to_title(filename: str, variant_index: int = 0) -> str:
     capitalized = []
     for w in clean_words:
         wl = w.lower()
-        if wl in ["de", "del", "la", "las", "el", "los", "en", "y", "a", "al", "con", "por", "un", "una", "se", "su"]:
+        if wl in ["de", "del", "la", "las", "el", "los", "en", "y", "a", "al", "con", "por", "un", "una", "se", "su", "que"]:
             capitalized.append(wl)
         else:
             capitalized.append(w.capitalize())
@@ -182,9 +182,8 @@ def clean_filename_to_title(filename: str, variant_index: int = 0) -> str:
     for pattern, repl in WORD_FIXES.items():
         title = re.sub(pattern, repl, title, flags=re.IGNORECASE)
 
-    # Añadir identificador de parte si existe y no está ya en el texto
-    if part_num and f"parte {part_num}" not in title.lower():
-        title = f"{title} | Parte {part_num}"
+    # Optimizador Viral: NO agregar "| Parte X" para no penalizar el CTR en el Shorts Feed
+    # Cada Short se presenta a la audiencia como una historia o gancho independiente.
 
     # Si hay una variante solicitada por colisión previa
     if variant_index > 0:
