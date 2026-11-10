@@ -65,8 +65,101 @@ WORD_FIXES = {
     r'\bAnos\b': 'Años',
 }
 
-# Temas contextuales mapeados para series de cámara o exportaciones técnicas sin descripción en el nombre
+# Temas contextuales mapeados para series de alto impacto viral
 SERIES_TOPICS = {
+    "V12": [
+        "Empezó a bailar en Transmilenio y todo el bus quedó en shock",
+        "El talento callejero que dejó en silencio a Bogotá",
+        "Nadie esperaba ver este nivel de baile en Transmilenio",
+        "La reacción de los pasajeros en Transmilenio fue épica",
+        "Cuando el arte puro le gana a la rutina de la ciudad",
+        "Se levantó de su asiento y demostró de qué está hecha",
+        "El espectáculo improvisado que se hizo viral en Transmilenio",
+        "Así se rompe la tensión en las calles de Bogotá",
+        "Deberían verla en los mejores escenarios del mundo",
+        "Bogotá tiene un talento oculto que merece ser viral"
+    ],
+    "V17": [
+        "Estuvo clínicamente muerto 60 minutos y vio esto",
+        "El hombre que regresó de la muerte en Bogotá",
+        "Lo que escuchó mientras los médicos lo daban por muerto",
+        "¿Qué hay realmente del otro lado? Testimonio inédito",
+        "Los médicos no se explican cómo despertó una hora después",
+        "El encuentro en el más allá que le cambió la vida",
+        "Sentí cómo me desprendía de mi cuerpo en el hospital",
+        "La voz que le dijo: Todavía no es tu momento de morir",
+        "Una experiencia cercana a la muerte que te dejará frío",
+        "La prueba real de que la conciencia no se apaga al morir"
+    ],
+    "V28": [
+        "Los túneles secretos que ocultan bajo Monserrate",
+        "Lo que encontraron oculto en las profundidades de Monserrate",
+        "El enigma subterráneo que pocos bogotanos conocen",
+        "¿Por qué intentaron taponar las entradas secretas de Monserrate?",
+        "El secreto oculto bajo la montaña sagrada de Bogotá"
+    ],
+    "V31": [
+        "Algunos suben a Monserrate y nunca vuelven igual",
+        "Lo que pasa de noche en Monserrate que los guías callan",
+        "El testimonio de quien subió solo a la montaña y algo cambió",
+        "La energía oculta de Monserrate que transforma a la gente",
+        "Lo que sucedió en la cima de Monserrate a medianoche"
+    ],
+    "V43": [
+        "Este clarinetista en la Séptima detuvo a cientos de personas",
+        "La melodía callejera que le sacó lágrimas a los transeúntes",
+        "Un músico brillante que la calle no debería esconder",
+        "Tocó una sola canción y la gente empezó a llorar",
+        "El talento invisible que camina por el centro de Bogotá"
+    ],
+    "V45": [
+        "El pueblo de Colombia donde los muertos no se pudren",
+        "El enigma real de las momias de San Bernardo",
+        "¿Por qué la tierra de este pueblo momifica los cuerpos?",
+        "Abrieron la tumba y el rostro estaba intacto",
+        "Científicos aún no se explican este fenómeno en Colombia",
+        "Los secretos del panteón de San Bernardo Cundinamarca",
+        "Lo que come la gente aquí: ¿La causa del misterio?",
+        "Cuerpos intactos después de 30 años bajo tierra",
+        "El misterio natural que desconcierta al mundo entero",
+        "Visité el lugar donde nadie puede descomponerse"
+    ],
+    "V46": [
+        "Grabó sus últimos segundos con vida en su celular",
+        "Lo que quedó grabado en su teléfono antes de partir",
+        "Una niña en medio del fuego cruzado: Momento real",
+        "El mensaje en su celular que nadie pudo olvidar",
+        "La verdad oculta detrás de este video en su teléfono",
+        "El celular que sobrevivió a la mayor tragedia",
+        "No tuvo tiempo de escapar: Su última grabación",
+        "Las palabras que dejó grabadas antes de morir",
+        "La historia que le rompió el corazón a todo el país",
+        "¿Por qué nadie pudo salvarla a tiempo?"
+    ],
+    "V47": [
+        "Cuidado con quién sales en internet: El asesino de las citas",
+        "Así engañaba a sus víctimas en las citas a ciegas",
+        "El detalle oculto que su última cita pasó por alto",
+        "La trampa mortal detrás de un perfil falso en redes",
+        "Lo que halló la policía en el celular del asesino",
+        "Nunca aceptes un trago de un desconocido en una cita",
+        "El error fatal que delató al asesino de las citas",
+        "Cómo logró escapar con vida una de sus víctimas",
+        "El rostro del sujeto que aterrorizó la ciudad",
+        "La regla de oro que puede salvarte la vida hoy mismo"
+    ],
+    "V52": [
+        "A los 11 años cayó en el crimen: Su crudo testimonio",
+        "Lo que realmente pasa en las ollas más peligrosas de Bogotá",
+        "Cómo sobrevivió a décadas de oscuridad en las calles",
+        "La regla de la calle que aprendió por las malas",
+        "El momento exacto en que decidió salir del infierno",
+        "Me dieron por muerto tres veces: Confesión real",
+        "El perdón que nadie creía que podía llegar a pedir",
+        "La verdadera historia de superación en el bajo mundo",
+        "De vivir en el crimen a transformar su vida por completo",
+        "Un mensaje urgente para los jóvenes en las calles"
+    ],
     "V54": [
         "¿Por qué preferimos encajar antes que decir la verdad?",
         "El albergue vacío: Lo que pasa cuando nadie pone límites",
@@ -130,9 +223,9 @@ def clean_filename_to_title(filename: str, variant_index: int = 0) -> str:
         part_str = m_s.group(1) or m_s.group(2)
         part_num = int(part_str)
 
-    # 1. Verificar si corresponde a series técnicas conocidas con temática específica (V54, V55, V56)
+    # 1. Verificar si corresponde a series con temática específica en SERIES_TOPICS
     m_v = re.match(r'^(V\d+)', name, re.IGNORECASE)
-    if m_v and ('lv_' in name.lower() or '2026' in name):
+    if m_v:
         v_key = m_v.group(1).upper()
         if v_key in SERIES_TOPICS:
             hooks = SERIES_TOPICS[v_key]
@@ -182,12 +275,20 @@ def clean_filename_to_title(filename: str, variant_index: int = 0) -> str:
     for pattern, repl in WORD_FIXES.items():
         title = re.sub(pattern, repl, title, flags=re.IGNORECASE)
 
-    # Optimizador Viral: NO agregar "| Parte X" para no penalizar el CTR en el Shorts Feed
-    # Cada Short se presenta a la audiencia como una historia o gancho independiente.
-
-    # Si hay una variante solicitada por colisión previa
+    # Optimizador Viral: PROHIBIDO agregar "(Clip X)" o "| Parte X"
+    # Cada Short se presenta como una historia única de alto impacto.
+    VIRAL_SUB_HOOKS = [
+        "¿Qué Pasó Realmente?",
+        "La Verdad Oculta",
+        "Lo que Nadie Vio",
+        "El Momento Decisivo",
+        "Nadie Esperaba Esto",
+        "Una Lección Inolvidable",
+        "El Giro Inesperado"
+    ]
     if variant_index > 0:
-        title = f"{title} (Clip {variant_index + 1})"
+        sub = VIRAL_SUB_HOOKS[(variant_index - 1) % len(VIRAL_SUB_HOOKS)]
+        title = f"{title}: {sub}"
 
     if len(title) > 85:
         title = title[:82] + "..."
@@ -214,13 +315,14 @@ def build_metadata(filename: str, custom_description: str = None, custom_tags: l
 
     base_desc = custom_description or "Historias reales, momentos inolvidables y reflexiones de vida en la ciudad."
     
-    # Enlace estratégico al video largo para sumar horas de reproducción
+    # Enlace estratégico al video largo para sumar horas de reproducción y detonar comentarios
     funnel_cta = (
         f"🎬 MIRA EL VIDEO LARGO COMPLETO AQUÍ:\n"
         f"👉 https://youtu.be/{linked_video['id']}\n"
         f"📌 Historia: {linked_video['title']}\n\n"
-        f"🔔 ¡Suscríbete a @ElGatoAlex para más historias y momentos reales todos los días!\n"
-        f"💬 Déjanos tu opinión en los comentarios."
+        f"💬 PREGUNTA DEL DÍA: ¿Tú qué opinas de lo que pasó aquí? ¿Habrías actuado igual? Déjame tu comentario abajo 👇\n"
+        f"🔥 Dale LIKE si respetas estas historias reales y COMPARTE con un amigo.\n"
+        f"🔔 ¡Suscríbete a @ElGatoAlex para más historias y momentos reales todos los días!"
     )
 
     hashtags = "#Shorts #Viral #ElGatoAlex #HistoriasReales #Bogota #Tendencias #ParaTi"
